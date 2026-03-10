@@ -65,6 +65,9 @@ export const action = async ({ request }) => {
       const hexExisting = await prisma.hexCodeProduct.findUnique({
         where: { product_id_shop: { product_id: productId, shop } },
       });
+
+      const previousGroupName = hexExisting?.group_name;
+
       if (hexExisting) {
         await prisma.hexCodeProduct.update({
           where: { product_id_shop: { product_id: productId, shop } },
@@ -76,18 +79,21 @@ export const action = async ({ request }) => {
         });
       }
 
-      // STEP 3: Push hexcolorgroup back to Shopify
-      await admin.graphql(
-        `mutation productUpdate($input: ProductInput!) {
-          productUpdate(input: $input) {
-            product { id }
-            userErrors { field message }
-          }
-        }`,
-        { variables: { input: { id: `gid://shopify/Product/${productId}`, metafields: [{ namespace: "custom", key: "hexcolorgroup", value: groupName, type: "single_line_text_field" }] } } }
-      );
-
-      console.log(`Auto-classified product ${productId} as ${groupName}`);
+      // Only push to Shopify if the group name actually changed — prevents webhook loop
+      if (groupName !== previousGroupName) {
+        await admin.graphql(
+          `mutation productUpdate($input: ProductInput!) {
+            productUpdate(input: $input) {
+              product { id }
+              userErrors { field message }
+            }
+          }`,
+          { variables: { input: { id: `gid://shopify/Product/${productId}`, metafields: [{ namespace: "custom", key: "hexcolorgroup", value: groupName, type: "single_line_text_field" }] } } }
+        );
+        console.log(`Auto-classified product ${productId} as ${groupName}`);
+      } else {
+        console.log(`Product ${productId} group unchanged (${groupName}) - skipping Shopify update.`);
+      }
     }
   } catch (err) {
     console.error("Webhook error:", err);
