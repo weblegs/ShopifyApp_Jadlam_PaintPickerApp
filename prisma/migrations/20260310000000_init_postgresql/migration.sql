@@ -1,30 +1,57 @@
 -- CreateTable
+CREATE TABLE "Session" (
+    "id" TEXT NOT NULL,
+    "shop" TEXT NOT NULL,
+    "state" TEXT NOT NULL,
+    "isOnline" BOOLEAN NOT NULL DEFAULT false,
+    "scope" TEXT,
+    "expires" TIMESTAMP(3),
+    "accessToken" TEXT NOT NULL,
+    "userId" BIGINT,
+    "firstName" TEXT,
+    "lastName" TEXT,
+    "email" TEXT,
+    "accountOwner" BOOLEAN NOT NULL DEFAULT false,
+    "locale" TEXT,
+    "collaborator" BOOLEAN DEFAULT false,
+    "emailVerified" BOOLEAN DEFAULT false,
+    "refreshToken" TEXT,
+    "refreshTokenExpires" TIMESTAMP(3),
+
+    CONSTRAINT "Session_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "ProductMeta" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id" SERIAL NOT NULL,
     "product_id" TEXT NOT NULL,
     "product_title" TEXT NOT NULL,
     "metafield_name" TEXT NOT NULL,
     "metafield_value" TEXT NOT NULL,
     "colourgroup" TEXT NOT NULL DEFAULT '',
     "shop" TEXT NOT NULL DEFAULT '',
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME NOT NULL
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "ProductMeta_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "HexCodeProduct" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id" SERIAL NOT NULL,
     "product_id" TEXT NOT NULL,
     "hex_color" TEXT NOT NULL,
     "group_name" TEXT NOT NULL,
     "shop" TEXT NOT NULL DEFAULT '',
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME NOT NULL
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "HexCodeProduct_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "SearchProduct" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id" SERIAL NOT NULL,
     "product_id" TEXT NOT NULL,
     "product_title" TEXT NOT NULL,
     "variant_id" TEXT NOT NULL DEFAULT '',
@@ -41,8 +68,10 @@ CREATE TABLE "SearchProduct" (
     "paint_number" TEXT NOT NULL DEFAULT '',
     "paint_range" TEXT NOT NULL DEFAULT '',
     "shop" TEXT NOT NULL DEFAULT '',
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME NOT NULL
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "SearchProduct_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex

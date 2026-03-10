@@ -2,7 +2,7 @@
 
 client_id = "a0269cae4af21c260d9feb5715b686f9"
 name = "weblegs-paint-hexa-code"
-application_url = "https://example.com"
+application_url = "https://shopifyappjadlampaintpickerapp-production.up.railway.app"
 embedded = true
 
 [build]
@@ -33,4 +33,4 @@ api_version = "2026-04"
 scopes = "read_products,write_products,read_metaobject_definitions,write_metaobject_definitions,read_metaobjects,write_metaobjects"
 
 [auth]
-redirect_urls = [ "https://example.com/api/auth" ]
+redirect_urls = [ "https://shopifyappjadlampaintpickerapp-production.up.railway.app/auth/callback" ]
