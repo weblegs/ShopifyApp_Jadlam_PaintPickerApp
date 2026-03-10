@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "a0269cae4af21c260d9feb5715b686f9"
-name = "weblegs-paint-hexa-code"
+name = "Weblegs Hex PaintPicker"
 application_url = "https://shopifyappjadlampaintpickerapp-production.up.railway.app"
 embedded = true
 
