@@ -99,7 +99,7 @@ export const getColorFromTitle = (title) => {
     if (title.toLowerCase().includes(color.toLowerCase())) {
       if (color.toLowerCase() === "silver") return "Grey";
       if (color.toLowerCase() === "copper" || color.toLowerCase() === "rust") return "Brown";
-      return color.toUpperCase();
+      return color;
     }
   }
   return null;
