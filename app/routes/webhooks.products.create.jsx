@@ -95,6 +95,24 @@ export const action = async ({ request }) => {
         console.log(`Product ${productId} group unchanged (${groupName}) - skipping Shopify update.`);
       }
     }
+    // STEP 3b: Update SearchProduct — only paint fields, no extra API call
+    const searchExisting = await prisma.searchProduct.findUnique({
+      where: { product_id_shop: { product_id: productId, shop } },
+    });
+    if (searchExisting) {
+      const paintColour   = metafields.find((m) => m.key === "PaintColour")?.value   || searchExisting.paint_colour;
+      const paintType     = metafields.find((m) => m.key === "PAINTTYPE")?.value     || searchExisting.paint_type;
+      const paintContainer= metafields.find((m) => m.key === "PaintContainer")?.value|| searchExisting.paint_container;
+      const paintNumber   = metafields.find((m) => m.key === "PaintNumber")?.value   || searchExisting.paint_number;
+      const paintRange    = metafields.find((m) => m.key === "PaintRange")?.value    || searchExisting.paint_range;
+
+      await prisma.searchProduct.update({
+        where: { product_id_shop: { product_id: productId, shop } },
+        data: { product_title: title, paint_hexa_code: hexValue, paint_colour: paintColour, paint_type: paintType, paint_container: paintContainer, paint_number: paintNumber, paint_range: paintRange },
+      });
+    }
+    // Note: new products not in SearchProduct yet will be picked up by the manual sync
+
   } catch (err) {
     console.error("Webhook error:", err);
   }

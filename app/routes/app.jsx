@@ -18,6 +18,7 @@ export default function App() {
       <s-app-nav>
         <s-link href="/app">HexCode Products</s-link>
         <s-link href="/app/colorgroup">Color Groups</s-link>
+        <s-link href="/app/searchsync">Search Sync</s-link>
       </s-app-nav>
       <Outlet />
     </AppProvider>
